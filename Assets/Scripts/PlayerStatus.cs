@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerStatus : MonoBehaviour
 
     Color originalColor;
     Color newColor;
+
     // public HealthBar healthBar;
 
     // Start is called before the first frame update
@@ -31,10 +33,12 @@ public class PlayerStatus : MonoBehaviour
         // {
         //     TakeDamage(20);
         // }
+        string SampleScene = SceneManager.GetActiveScene().name;
         playerSprite.color = originalColor;
-        if (currentHealth == 0)
+        if (currentHealth < 0)
         {
-            Debug.Log("DEAD");
+            // Debug.Log("DEAD");
+            SceneManager.LoadScene(SampleScene);
         }
         
     }
