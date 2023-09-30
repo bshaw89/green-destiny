@@ -4966,6 +4966,7 @@ GameObject:
   - component: {fileID: 494018082}
   - component: {fileID: 494018083}
   - component: {fileID: 494018084}
+  - component: {fileID: 494018085}
   m_Layer: 6
   m_Name: Player
   m_TagString: HurtBox
@@ -5207,6 +5208,21 @@ SpringJoint2D:
   m_Distance: 0.005
   m_DampingRatio: 0.25
   m_Frequency: 0.28
+--- !u!114 &494018085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494018075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a97df881913d5a4eb1e43c4b14edcf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  playerSprite: {fileID: 494018078}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5814,8 +5830,8 @@ Transform:
   m_GameObject: {fileID: 1254214298}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6673387, y: -0.7437693, z: -0.026277382, w: -0.027854305}
-  m_LocalPosition: {x: 0.113, y: -1.916, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.113, y: -0.98, z: 0}
+  m_LocalScale: {x: 0.23986, y: 0.23986, z: 0.23986}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -10629,6 +10645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4ea594124361843912ab48e7e49318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: {fileID: 494018085}
 --- !u!1 &1277253834
 GameObject:
   m_ObjectHideFlags: 0

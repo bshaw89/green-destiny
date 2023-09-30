@@ -88,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (RB.transform.position.y + 0.01 < previousPos.y)
         {
-            Debug.Log("New Pos: " + RB.transform.position.y + " Old pos: " + previousPos.y);
             falling = true;
         }
 
@@ -146,7 +145,6 @@ public class PlayerMovement : MonoBehaviour
             _isJumpCut = false;
             _isJumpFalling = false;
 
-            Debug.Log("JUMPINNN");
             // Jump();
 
             // AnimHandler.startedJumping = true;
@@ -167,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
         if (hit.collider != null)
         {
             float distanceFromGround = Mathf.Abs(hit.point.y - transform.position.y);
-            // Debug.Log("Hit! " + distance); 
         }
     }
 
@@ -190,7 +187,6 @@ public class PlayerMovement : MonoBehaviour
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * accelInAir : runDeccelAmount * deccelInAir;
 
 
-        Debug.Log("Vel x: " + RB.velocity.x);
 		float speedDif = targetSpeed - RB.velocity.x;
 
 		float movement = speedDif * accelRate;
@@ -218,7 +214,6 @@ public class PlayerMovement : MonoBehaviour
 			{		
                 if (moveInput.y > 0)
                 {
-                    Debug.Log("Y MOVING");
                     ascentTime = WireRB.position.y + (0.5f * Time.deltaTime);
                     WireRB.MovePosition(new Vector2(RB.position.x, ascentTime));
                 }
@@ -234,7 +229,6 @@ public class PlayerMovement : MonoBehaviour
 			{
 				IsJumping = false;
 				_isJumpFalling = false;
-				Debug.Log("GROUND HIT: " + WireSpring.enabled);
 				WireSpring.enabled = false;
 				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 			}

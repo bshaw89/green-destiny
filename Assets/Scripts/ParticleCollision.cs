@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class ParticleCollision : MonoBehaviour
 {
-   // The particle System
     private ParticleSystem sys;
-    // Array of alive particles
     private ParticleSystem.Particle[] aliveParticles;
-    // The 2d collider that we want to collide with
-    // the particle system
     private BoxCollider2D boxCollider;
+    public PlayerStatus playerStatus;
     
     // Called when any particle meets the condition
     // of the trigger section of the particle system
@@ -33,7 +30,8 @@ public class ParticleCollision : MonoBehaviour
             // Check for collision
             if (boxCollider.bounds.Intersects(new Bounds(particle.position, particle.GetCurrentSize3D(sys))))
             {
-                Debug.Log("Success");
+                // Debug.Log("Success");
+                playerStatus.TakeDamage(0.02f);
             }
         }
     }
