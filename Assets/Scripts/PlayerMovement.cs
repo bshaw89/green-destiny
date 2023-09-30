@@ -219,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
                 if (moveInput.y > 0)
                 {
                     Debug.Log("Y MOVING");
-                    ascentTime = WireRB.position.y + (1f * Time.deltaTime);
+                    ascentTime = WireRB.position.y + (0.5f * Time.deltaTime);
                     WireRB.MovePosition(new Vector2(RB.position.x, ascentTime));
                 }
                 else
