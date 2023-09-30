@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region INPUT PARAMS
     private Vector2 moveInput;
+	public float LastPressedJumpTime { get; private set; }
+	#endregion
+
+    float DescentTime;
+    public float gravityScale;
 
     #region COMPONENTS
     public Rigidbody2D RB;
+	// public PlayerAnimator animHandler { get; private set; }
+	public GameObject Wire;
+    public Rigidbody2D WireRB;
+    public SpringJoint2D WireSpring;
+
+
 	#endregion
 
 
@@ -21,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
 	public float LastOnWallLeftTime { get; private set; }
+
+    //Jump
+	private bool _isJumpCut;
+	public bool _isJumpFalling;
 	#endregion
 
 	[Header("Run")]
@@ -32,6 +48,11 @@ public class PlayerMovement : MonoBehaviour
     [Range(0f, 1)] public float accelInAir;
 
 	[Range(0f, 1)] public float deccelInAir;
+
+    [Header("Assists")]
+    [Range(0.01f, 0.5f)] public float coyoteTime;
+	[Range(0.01f, 0.5f)] public float jumpInputBufferTime;
+
 
     #region CHECK PARAMS
     [Header("Checks")] 
@@ -49,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private LayerMask _groundLayer;
 	#endregion
 
-
     void Start()
     {
         runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
@@ -59,17 +79,82 @@ public class PlayerMovement : MonoBehaviour
 		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        LastOnGroundTime -= Time.deltaTime;
+		LastPressedJumpTime -= Time.deltaTime;
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+		moveInput.y = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            gravityScale = 3.4f;
+			OnJumpInput();	
+        }
+
+		#region COLLISION CHECKS
+        if (!IsJumping)
+        {
+            //Ground Check
+			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
+			{
+                Debug.Log("GROUND");
+				if(LastOnGroundTime < -0.1f)
+                {
+					// AnimHandler.justLanded = true;
+					// audioManager.Stop("PlayerJump");
+                    WireSpring.enabled = false;
+					_isJumpFalling = false;
+					WireMovement();
+                }
+                gravityScale = 1.7f;
+
+				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }		
+        }
+		#endregion
+
+        #region JUMP CHECKS
+		if (IsJumping && RB.velocity.y < 0)
+		{
+			IsJumping = false;
+
+			_isJumpFalling = true;
+		}
+
+        if (RB.velocity.y < 0)
+        {
+            gravityScale = 3.4f;
+        }
+
+        if (CanJump() && LastPressedJumpTime > 0)
+        {
+            IsJumping = true;
+            IsWallJumping = false;
+            _isJumpCut = false;
+            _isJumpFalling = false;
+
+            Debug.Log("JUMPINNN");
+            // Jump();
+
+            // AnimHandler.startedJumping = true;
+        }
+		#endregion
+        
+
     }
 
     void FixedUpdate ()
     {
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-		moveInput.y = Input.GetAxisRaw("Vertical");
         Run(1);
+		WireMovement();
+        RB.gravityScale = gravityScale;
     }
+
+    public void OnJumpInput()
+	{
+		LastPressedJumpTime = jumpInputBufferTime;
+	}
 
     private void Run(float lerpAmount)
     {
@@ -98,5 +183,48 @@ public class PlayerMovement : MonoBehaviour
 
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
+    }
+
+    private void WireMovement()
+    {
+        if (IsJumping || _isJumpFalling)
+		{
+			// Debug.Log("GRAVITY SCALE: " + RB.gravityScale);
+			// if (Data.gravityScale > 2)
+			
+				Debug.Log("JUMPING");
+			// if (!_isJumpFalling)
+				WireSpring.enabled = true;
+			// }
+			WireRB.MovePosition(new Vector2(RB.position.x, WireRB.position.y));
+			
+			// if ((WireRB.position.y - RB.position.y) > 8f && _isJumpFalling)
+			if (RB.velocity.y < 2)
+			{		
+					DescentTime = WireRB.position.y - (1f * Time.deltaTime);
+					WireRB.MovePosition(new Vector2(RB.position.x, DescentTime));
+
+			}
+
+			if (_isJumpFalling && Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
+			{
+				IsJumping = false;
+				_isJumpFalling = false;
+				Debug.Log("GROUND HIT: " + WireSpring.enabled);
+				WireSpring.enabled = false;
+				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 6.5f));
+			}
+
+		}
+		else 
+		{
+			WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 6.5f));
+		}
+
+    }
+
+    private bool CanJump()
+    {
+		return LastOnGroundTime > 0 && !IsJumping;
     }
 }
