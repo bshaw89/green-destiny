@@ -4968,7 +4968,7 @@ GameObject:
   - component: {fileID: 494018084}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: HurtBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5315,7 +5315,6 @@ MonoBehaviour:
   subject: {fileID: 494018077}
   smoothSpeed: 3
   offset: {x: 0, y: 2.95, z: -10}
-  PixelsPerUnit: 32
 --- !u!1 &672273303
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,7 +5655,6 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   subject: {fileID: 494018077}
   background: 0
-  PixelsPerUnit: 32
 --- !u!1 &1108534654
 GameObject:
   m_ObjectHideFlags: 0
@@ -5788,7 +5786,6 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   subject: {fileID: 494018077}
   background: 0
-  PixelsPerUnit: 32
 --- !u!1 &1254214298
 GameObject:
   m_ObjectHideFlags: 0
@@ -5800,6 +5797,7 @@ GameObject:
   - component: {fileID: 1254214299}
   - component: {fileID: 1254214301}
   - component: {fileID: 1254214300}
+  - component: {fileID: 1254214302}
   m_Layer: 6
   m_Name: Miasma
   m_TagString: Untagged
@@ -5816,7 +5814,7 @@ Transform:
   m_GameObject: {fileID: 1254214298}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6673387, y: -0.7437693, z: -0.026277382, w: -0.027854305}
-  m_LocalPosition: {x: 1.36, y: -0.32, z: 0}
+  m_LocalPosition: {x: 0.113, y: -1.916, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5967,7 +5965,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -5977,7 +5975,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9480,15 +9478,16 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
-    collisionMode: 0
+    type: 1
+    collisionMode: 1
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    m_Planes: []
+    m_Planes:
+    - {fileID: 494018077}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -9545,7 +9544,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9650,26 +9649,27 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 0.0001
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 64
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 2
-    inside: 1
+    inside: 2
     outside: 0
-    enter: 0
+    enter: 2
     exit: 0
-    colliderQueryMode: 0
+    colliderQueryMode: 1
     radiusScale: 1
-    primitives: []
+    primitives:
+    - {fileID: 494018077}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -10617,6 +10617,18 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1254214302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254214298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4ea594124361843912ab48e7e49318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1277253834
 GameObject:
   m_ObjectHideFlags: 0
@@ -15576,7 +15588,6 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   subject: {fileID: 494018077}
   background: 0
-  PixelsPerUnit: 32
 --- !u!1 &1622904596
 GameObject:
   m_ObjectHideFlags: 0
@@ -15677,7 +15688,6 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   subject: {fileID: 494018077}
   background: 0
-  PixelsPerUnit: 32
 --- !u!1 &1685329280
 GameObject:
   m_ObjectHideFlags: 0
