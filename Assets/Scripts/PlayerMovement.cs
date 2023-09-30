@@ -79,8 +79,8 @@ public class PlayerMovement : MonoBehaviour
         runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
 		runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
 
-        runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
-		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
+        // runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
+		// runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
     }
 
     void Update()
@@ -89,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("New Pos: " + RB.transform.position.y + " Old pos: " + previousPos.y);
             falling = true;
-            Debug.Log("FALLING");
         }
 
         LastOnGroundTime -= Time.deltaTime;
@@ -109,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-                Debug.Log("GROUND");
 				if(LastOnGroundTime < -0.1f)
                 {
 					// AnimHandler.justLanded = true;
@@ -182,25 +180,19 @@ public class PlayerMovement : MonoBehaviour
 		float targetSpeed = moveInput.x * runMaxSpeed;
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
-        Debug.Log(moveInput);
-        Debug.Log("Target speed: " + targetSpeed);
-
-
 		float accelRate;
 
 
-        // if (LastOnGroundTime > 0)
+        if (LastOnGroundTime > 0)
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount : runDeccelAmount;
-		// else
-			// accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * accelInAir : runDeccelAmount * deccelInAir;
+		else
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * accelInAir : runDeccelAmount * deccelInAir;
 
-        Debug.Log("Accel rate: " + accelRate);
 
+        Debug.Log("Vel x: " + RB.velocity.x);
 		float speedDif = targetSpeed - RB.velocity.x;
 
 		float movement = speedDif * accelRate;
-
-        Debug.Log("Movement: " + movement);
 
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
@@ -210,16 +202,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsJumping || _isJumpFalling)
 		{
-			// Debug.Log("GRAVITY SCALE: " + RB.gravityScale);
-			// if (Data.gravityScale > 2)
-			
-				Debug.Log("JUMPING");
-			// if (!_isJumpFalling)
-				WireSpring.enabled = true;
-			// }
+            WireSpring.enabled = true;
 			WireRB.MovePosition(new Vector2(RB.position.x, WireRB.position.y));
+            DescentTime = WireRB.position.y - (1f * Time.deltaTime);
+            WireRB.MovePosition(new Vector2(RB.position.x, DescentTime));
+
+            if (RB.position.y > WireRB.position.y -2f)
+            {
+                WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 2f));
+            }
 			
-			// if ((WireRB.position.y - RB.position.y) > 8f && _isJumpFalling)
 			if (falling)
 			{		
 					DescentTime = WireRB.position.y - (1f * Time.deltaTime);
@@ -246,5 +238,11 @@ public class PlayerMovement : MonoBehaviour
     private bool CanJump()
     {
 		return LastOnGroundTime > 0 && !IsJumping;
+    }
+
+    private void OnValidate()
+    {
+        runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
+		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
     }
 }
