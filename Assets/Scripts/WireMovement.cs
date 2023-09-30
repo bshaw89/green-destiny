@@ -19,7 +19,9 @@ public class WireMovement : MonoBehaviour
 
 	public bool isJumping;
 
-	public bool falling;
+	// public bool falling;
+    public PlayerMovement playerMovement;
+    public bool playerFalling;
 
 	public SpringJoint2D wire;
 
@@ -29,37 +31,49 @@ public class WireMovement : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        playerFalling = playerMovement.falling;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.Space)) 
 		{
-			if (playerRB.velocity.y > 0.01)
+            bool maxReached = false;
+			if (!playerFalling)
 			{
+                // wire.frequency = 0.5f;
+                Debug.Log("NOT Falling!!!");
 				isJumping = true;
 				bool jumpOver = false;
 				int revolutions = 0;
 				timer += Time.deltaTime;
 
 				// float timeElapsed = 0;
-				speed = 0.48f;
-				speed -= 0.2f * Time.deltaTime; // Cap at some max value too
-				// maximum = 0.5f;
-				// minimum = 0.1f;
-				speed = Mathf.Lerp(maximum, minimum, t);
-				t -= 2.5f * -Time.deltaTime;
-				wire.frequency = speed;
+				// speed = 0.48f;
+				// speed -= 0.2f * Time.deltaTime; // Cap at some max value too
+				// // maximum = 0.5f;
+				// // minimum = 0.1f;
+				// speed = Mathf.Lerp(maximum, minimum, t);
+				// t -= 2.5f * -Time.deltaTime;
+				// wire.frequency = speed;
 
-				maximum = 0.7f;
-				minimum = 0.3f;
+				// maximum = 0.7f;
+				// minimum = 0.3f;
 				speed = Mathf.Lerp(maximum, minimum, t);
-				t -= 2.5f * -Time.deltaTime;
+				t -= 1.5f * -Time.deltaTime;
 				wire.frequency = speed;
+                
 
-			} else if (playerRB.velocity.y < 1)
+			} else if (playerFalling)
 			// Debug.Log("GRAV" + playerRB.gravityScale);
 			{
-				// wire.frequency = 0.7f;
+				// wire.frequency = 0.6f;
+                speed = Mathf.Lerp(minimum, maximum, t);
+				t += 0.5f * Time.deltaTime;
+				wire.frequency = speed;
 				// wire.distance = 0.005f;
 				// Debug.Log("GRAVY");
 				// if (!falling)

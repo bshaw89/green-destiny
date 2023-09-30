@@ -12,12 +12,16 @@ public class PlayerMovement : MonoBehaviour
     float DescentTime;
     public float gravityScale;
 
+    public float distanceFromGround;
+
     #region COMPONENTS
     public Rigidbody2D RB;
 	// public PlayerAnimator animHandler { get; private set; }
 	public GameObject Wire;
     public Rigidbody2D WireRB;
     public SpringJoint2D WireSpring;
+    public Vector2 previousPos;
+    public bool falling;
 
 
 	#endregion
@@ -81,6 +85,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (RB.transform.position.y + 0.01 < previousPos.y)
+        {
+            Debug.Log("New Pos: " + RB.transform.position.y + " Old pos: " + previousPos.y);
+            falling = true;
+            Debug.Log("FALLING");
+        }
+
         LastOnGroundTime -= Time.deltaTime;
 		LastPressedJumpTime -= Time.deltaTime;
         moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -105,9 +116,11 @@ public class PlayerMovement : MonoBehaviour
 					// audioManager.Stop("PlayerJump");
                     WireSpring.enabled = false;
 					_isJumpFalling = false;
+
 					WireMovement();
                 }
-                gravityScale = 1.7f;
+                RB.gravityScale = 1.7f;
+                falling = false;
 
 				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
             }		
@@ -124,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (RB.velocity.y < 0)
         {
-            gravityScale = 3.4f;
+            RB.gravityScale = 3.4f;
         }
 
         if (CanJump() && LastPressedJumpTime > 0)
@@ -141,14 +154,22 @@ public class PlayerMovement : MonoBehaviour
         }
 		#endregion
         
-
+        previousPos = RB.transform.position;
     }
 
     void FixedUpdate ()
     {
         Run(1);
 		WireMovement();
-        RB.gravityScale = gravityScale;
+        // RB.gravityScale = gravityScale;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
+
+        if (hit.collider != null)
+        {
+            float distanceFromGround = Mathf.Abs(hit.point.y - transform.position.y);
+            // Debug.Log("Hit! " + distance); 
+        }
     }
 
     public void OnJumpInput()
@@ -199,11 +220,10 @@ public class PlayerMovement : MonoBehaviour
 			WireRB.MovePosition(new Vector2(RB.position.x, WireRB.position.y));
 			
 			// if ((WireRB.position.y - RB.position.y) > 8f && _isJumpFalling)
-			if (RB.velocity.y < 2)
+			if (falling)
 			{		
 					DescentTime = WireRB.position.y - (1f * Time.deltaTime);
 					WireRB.MovePosition(new Vector2(RB.position.x, DescentTime));
-
 			}
 
 			if (_isJumpFalling && Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
@@ -212,13 +232,13 @@ public class PlayerMovement : MonoBehaviour
 				_isJumpFalling = false;
 				Debug.Log("GROUND HIT: " + WireSpring.enabled);
 				WireSpring.enabled = false;
-				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 6.5f));
+				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 			}
 
 		}
 		else 
 		{
-			WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 6.5f));
+			WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 		}
 
     }
