@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 	#endregion
 
     float DescentTime;
+    float ascentTime;
     public float gravityScale;
 
     public float distanceFromGround;
@@ -212,10 +213,21 @@ public class PlayerMovement : MonoBehaviour
                 WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 2f));
             }
 			
+
 			if (falling)
 			{		
+                if (moveInput.y > 0)
+                {
+                    Debug.Log("Y MOVING");
+                    ascentTime = WireRB.position.y + (1f * Time.deltaTime);
+                    WireRB.MovePosition(new Vector2(RB.position.x, ascentTime));
+                }
+                else
+                {
+
 					DescentTime = WireRB.position.y - (1f * Time.deltaTime);
 					WireRB.MovePosition(new Vector2(RB.position.x, DescentTime));
+                }
 			}
 
 			if (_isJumpFalling && Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
