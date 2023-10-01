@@ -12,18 +12,22 @@ public class PlayerMovement : MonoBehaviour
     float DescentTime;
     float ascentTime;
     public float gravityScale;
+    [SerializeField] [Range(0, 1)] private float tiltSpeed;
+    [SerializeField] private float maxTilt;
+
 
     public float distanceFromGround;
 
     #region COMPONENTS
     public Rigidbody2D RB;
-	// public PlayerAnimator animHandler { get; private set; }
+	public Animator animHandler;
 	public GameObject Wire;
     public Rigidbody2D WireRB;
     public SpringJoint2D WireSpring;
     public Vector2 previousPos;
     public bool falling;
-
+    public SpriteRenderer spriteRend;
+    
 
 	#endregion
 
@@ -79,13 +83,17 @@ public class PlayerMovement : MonoBehaviour
     {
         runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
 		runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
+		IsFacingRight = true;
 
         // runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
 		// runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
+        // hi
     }
 
     void Update()
     {
+        animHandler.SetFloat("Speed", Mathf.Abs(RB.velocity.x));
+
         if (RB.transform.position.y + 0.01 < previousPos.y)
         {
             falling = true;
@@ -166,6 +174,20 @@ public class PlayerMovement : MonoBehaviour
         {
             float distanceFromGround = Mathf.Abs(hit.point.y - transform.position.y);
         }
+    }
+
+    void LateUpdate()
+    {
+        float tiltProgress;
+
+        int mult = -1;
+
+        tiltProgress = Mathf.InverseLerp(runMaxSpeed, runMaxSpeed, RB.velocity.x);
+        mult = (IsFacingRight) ? 1 : -1;
+            
+        float newRot = ((tiltProgress * maxTilt * 2) - maxTilt);
+        float rot = Mathf.LerpAngle(spriteRend.transform.localRotation.eulerAngles.z * mult, newRot, tiltSpeed);
+        spriteRend.transform.localRotation = Quaternion.Euler(0, 0, rot * mult);
     }
 
     public void OnJumpInput()
