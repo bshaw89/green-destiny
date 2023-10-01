@@ -178,16 +178,23 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        float tiltProgress;
+      if (RB.velocity.x < -0.01)
+      {
+        IsFacingRight = false;
+      }
+      else if (RB.velocity.x > 0.01)
+      {
+        IsFacingRight = true;
+      }
 
-        int mult = -1;
-
-        tiltProgress = Mathf.InverseLerp(runMaxSpeed, runMaxSpeed, RB.velocity.x);
-        mult = (IsFacingRight) ? 1 : -1;
-            
-        float newRot = ((tiltProgress * maxTilt * 2) - maxTilt);
-        float rot = Mathf.LerpAngle(spriteRend.transform.localRotation.eulerAngles.z * mult, newRot, tiltSpeed);
-        spriteRend.transform.localRotation = Quaternion.Euler(0, 0, rot * mult);
+      if (!IsFacingRight)
+      {
+        spriteRend.flipX = true;
+      }
+      else if (IsFacingRight)
+      {
+        spriteRend.flipX = false;
+      }
     }
 
     public void OnJumpInput()

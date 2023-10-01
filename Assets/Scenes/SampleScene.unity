@@ -123,6 +123,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &38683524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 38683525}
+  m_Layer: 0
+  m_Name: PlayerObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &38683525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38683524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49921253, y: -1.2600007, z: -10.340433}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 494018077}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &78425107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4981,14 +5013,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494018075}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.05, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.49921253, y: -1.78, z: 10.340433}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1858790378}
   - {fileID: 1310882746}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 38683525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &494018080
 Rigidbody2D:
@@ -5114,7 +5146,7 @@ MonoBehaviour:
   maxTilt: 0
   distanceFromGround: 0
   RB: {fileID: 494018080}
-  animHandler: {fileID: 0}
+  animHandler: {fileID: 1310882748}
   Wire: {fileID: 1928661820}
   WireRB: {fileID: 1928661822}
   WireSpring: {fileID: 494018084}
@@ -5122,7 +5154,7 @@ MonoBehaviour:
   falling: 0
   spriteRend: {fileID: 1310882747}
   _isJumpFalling: 0
-  runMaxSpeed: 3.3
+  runMaxSpeed: 6
   runAcceleration: 0.84
   runAccelAmount: 0
   runDecceleration: 1.03
@@ -10655,8 +10687,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310882745}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10702,7 +10734,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: 949517404, guid: 818102b475bef8746aa473c055132b85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10722,9 +10754,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310882745}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 86084609bf2cfa74bb37b6c071266e02, type: 2}
+  m_Controller: {fileID: 9100000, guid: 17062478aad55014583cbe6af3bb6e5b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -15970,7 +16002,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 494018077}
   - {fileID: 519420032}
   - {fileID: 672273305}
   - {fileID: 1002549596}
@@ -15982,3 +16013,4 @@ SceneRoots:
   - {fileID: 1042951487}
   - {fileID: 1190023386}
   - {fileID: 1524799466}
+  - {fileID: 38683525}
