@@ -31,7 +31,7 @@ public class Parallax2 : MonoBehaviour
 
         if (background)
         {
-            transform.position = new Vector3(subject.position.x, newPos.y, startZ);
+            transform.position = new Vector3(subject.position.x, transform.position.y, startZ);
         }
         else
         {

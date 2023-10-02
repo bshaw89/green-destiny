@@ -5,7 +5,7 @@ using UnityEngine;
 public class WireMovement : MonoBehaviour
 {
 
-    private Rigidbody2D rb2D;
+    public Rigidbody2D rb2D;
     public Vector2 velocity;
     public Vector2 moveInput;
 
@@ -41,29 +41,42 @@ public class WireMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space)) 
+        if (Input.GetKey(KeyCode.Space) || moveInput.y > 0) 
 		{
-            bool maxReached = false;
-			if (!playerFalling)
-			{
-				isJumping = true;
-				bool jumpOver = false;
-				int revolutions = 0;
-				timer += Time.deltaTime;
+			// if (moveInput.y > 0 && !Input.GetKey(KeyCode.Space))
+			// {
+			// 	if (playerRB.position.y < rb2D.position.y -2f)
+			// 	{
+			// 		rb2D.MovePosition(new Vector2(playerRB.position.x, playerRB.position.y + 2f));
+			// 	}
+			// 	Debug.Log("YEAH");
+			// 	speed = Mathf.Lerp(maximum, minimum, t);
+			// 	t -= 0.5f * -Time.deltaTime;
+			// 	wire.frequency = speed;
+			// }
+			// else {
+				bool maxReached = false;
+				if (!playerFalling)
+				{
+					isJumping = true;
+					bool jumpOver = false;
+					int revolutions = 0;
+					timer += Time.deltaTime;
 
-				
-				speed = Mathf.Lerp(maximum, minimum, t);
-				t -= 1.5f * -Time.deltaTime;
-				wire.frequency = speed;
-                
+					
+					speed = Mathf.Lerp(maximum, minimum, t);
+					t -= 1.5f * -Time.deltaTime;
+					wire.frequency = speed;
+					
 
-			} else if (playerFalling)
-			{
-                // speed = Mathf.Lerp(minimum, maximum, t);
-				// t += 0.5f * Time.deltaTime;
-				wire.frequency = 0.6f;;
-				
-			}
+				} else if (playerFalling)
+				{
+					// speed = Mathf.Lerp(minimum, maximum, t);
+					// t += 0.5f * Time.deltaTime;
+					wire.frequency = 0.6f;;
+					
+				}
+			// }
   		}
   		else 
 		{

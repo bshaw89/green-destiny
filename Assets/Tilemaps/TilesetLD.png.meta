@@ -210,7 +210,7 @@ TextureImporter:
       name: TilesetLD_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 160
         y: 128
         width: 32
         height: 32
@@ -231,7 +231,7 @@ TextureImporter:
       name: TilesetLD_5
       rect:
         serializedVersion: 2
-        x: 224
+        x: 192
         y: 128
         width: 32
         height: 32
@@ -252,7 +252,7 @@ TextureImporter:
       name: TilesetLD_6
       rect:
         serializedVersion: 2
-        x: 256
+        x: 224
         y: 128
         width: 32
         height: 32
@@ -336,7 +336,7 @@ TextureImporter:
       name: TilesetLD_10
       rect:
         serializedVersion: 2
-        x: 192
+        x: 160
         y: 96
         width: 32
         height: 32
@@ -357,7 +357,7 @@ TextureImporter:
       name: TilesetLD_11
       rect:
         serializedVersion: 2
-        x: 224
+        x: 192
         y: 96
         width: 32
         height: 32
@@ -378,7 +378,7 @@ TextureImporter:
       name: TilesetLD_12
       rect:
         serializedVersion: 2
-        x: 256
+        x: 224
         y: 96
         width: 32
         height: 32
@@ -483,7 +483,7 @@ TextureImporter:
       name: TilesetLD_17
       rect:
         serializedVersion: 2
-        x: 192
+        x: 160
         y: 64
         width: 32
         height: 32
@@ -504,7 +504,7 @@ TextureImporter:
       name: TilesetLD_18
       rect:
         serializedVersion: 2
-        x: 224
+        x: 192
         y: 64
         width: 32
         height: 32
@@ -525,7 +525,7 @@ TextureImporter:
       name: TilesetLD_19
       rect:
         serializedVersion: 2
-        x: 256
+        x: 224
         y: 64
         width: 32
         height: 32

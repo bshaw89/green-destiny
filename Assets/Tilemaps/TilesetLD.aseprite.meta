@@ -121,7 +121,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: TilesetLD
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.4965278, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -130,7 +130,7 @@ ScriptedImporter:
       y: 4
       width: 288
       height: 160
-    spriteID: 3787a39d30d48db44b7413656565a164
+    spriteID: 650420a749bf1c54c95ce9dc29c5af4d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -155,7 +155,7 @@ ScriptedImporter:
         y: 0
         width: 288
         height: 160
-      spriteId: 3787a39d30d48db44b7413656565a164
+      spriteId: 650420a749bf1c54c95ce9dc29c5af4d
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -209,4 +209,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 288, y: 160}
+  canvasSize: {x: 256, y: 160}

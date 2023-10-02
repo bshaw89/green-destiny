@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravityScale;
     [SerializeField] [Range(0, 1)] private float tiltSpeed;
     [SerializeField] private float maxTilt;
+    public LineRenderer lineRenderer;
 
 
     public float distanceFromGround;
@@ -99,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
             falling = true;
         }
 
+
         LastOnGroundTime -= Time.deltaTime;
 		LastPressedJumpTime -= Time.deltaTime;
         moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -116,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-				if(LastOnGroundTime < -0.1f)
+				if(LastOnGroundTime < -0.1f && !falling)
                 {
 					// AnimHandler.justLanded = true;
 					// audioManager.Stop("PlayerJump");
@@ -176,6 +178,8 @@ public class PlayerMovement : MonoBehaviour
         {
             float distanceFromGround = Mathf.Abs(hit.point.y - transform.position.y);
         }
+         lineRenderer.SetPosition(0, RB.position);
+        lineRenderer.SetPosition(1, WireRB.position);
     }
 
     void LateUpdate()
@@ -237,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void WireMovement()
     {
-        if (IsJumping || _isJumpFalling)
+        if (IsJumping || _isJumpFalling || falling)
 		{
             Debug.Log("WORKING");
             WireSpring.enabled = true;
@@ -255,8 +259,13 @@ public class PlayerMovement : MonoBehaviour
 			{		
                 if (moveInput.y > 0)
                 {
-                    ascentTime = WireRB.position.y + (0.5f * Time.deltaTime);
+                    ascentTime = WireRB.position.y + (2f * Time.deltaTime);
                     WireRB.MovePosition(new Vector2(RB.position.x, ascentTime));
+                }
+                else if (moveInput.y < 0)
+                {
+                    DescentTime = WireRB.position.y - (3f * Time.deltaTime);
+					WireRB.MovePosition(new Vector2(RB.position.x, DescentTime));
                 }
                 else
                 {
@@ -266,7 +275,7 @@ public class PlayerMovement : MonoBehaviour
                 }
 			}
 
-			if (_isJumpFalling && Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
+			if (_isJumpFalling && Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !Input.GetKeyUp(KeyCode.Space))
 			{
 				IsJumping = false;
 				_isJumpFalling = false;
@@ -274,8 +283,16 @@ public class PlayerMovement : MonoBehaviour
 				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 			}
 
+           
+
 		}
-		else 
+		// else if (moveInput.y > 0)
+        // {
+        //     WireSpring.enabled = true;
+        //     ascentTime = WireRB.position.y + (2f * Time.deltaTime);
+        //     WireRB.MovePosition(new Vector2(RB.position.x, ascentTime));
+        // }
+        else
 		{
 			WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 		}
