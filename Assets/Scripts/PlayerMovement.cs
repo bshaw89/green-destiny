@@ -122,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 					// audioManager.Stop("PlayerJump");
                     WireSpring.enabled = false;
 					_isJumpFalling = false;
+                    Debug.Log("GROUND");
 
 					WireMovement();
                 }
@@ -129,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 falling = false;
 
 				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
+
             }		
         }
 		#endregion
@@ -178,11 +180,11 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-      if (RB.velocity.x < -0.01)
+      if (moveInput.x < 0)
       {
         IsFacingRight = false;
       }
-      else if (RB.velocity.x > 0.01)
+      else if (moveInput.x > 0)
       {
         IsFacingRight = true;
       }
@@ -219,8 +221,17 @@ public class PlayerMovement : MonoBehaviour
 		float speedDif = targetSpeed - RB.velocity.x;
 
 		float movement = speedDif * accelRate;
+        Vector2 groundForce = new Vector2(1, 0);
 
-		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        if (LastOnGroundTime > -0.01f)
+        {
+            // Debug.Log("DISABLING DOWNWARD FORCE");
+		    RB.AddForce(movement * groundForce, ForceMode2D.Force);
+        }
+        else
+        {
+		    RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        }
 
     }
 
@@ -228,6 +239,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsJumping || _isJumpFalling)
 		{
+            Debug.Log("WORKING");
             WireSpring.enabled = true;
 			WireRB.MovePosition(new Vector2(RB.position.x, WireRB.position.y));
             DescentTime = WireRB.position.y - (1f * Time.deltaTime);
