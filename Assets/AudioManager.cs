@@ -1,6 +1,7 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -22,7 +23,10 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        // Play("IntroTrack");
+        // if (SceneManager.GetActiveScene().buildIndex == 0 )
+        // {
+            Play("Miasma");
+        // }
     }
 
    
@@ -35,7 +39,13 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found.");
             return;
         }
-      s.source.Play();
+
+        // if (s.source.isPlaying);
+        // {
+        //     // Debug.LogWarning("Sound: " + name + " not found.");
+        //     return;
+            s.source.Play();
+        // }
    }
 
    public void Stop (string name)

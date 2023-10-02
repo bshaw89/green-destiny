@@ -16,6 +16,8 @@ public class PlayerStatus : MonoBehaviour
     Color originalColor;
     Color newColor;
 
+    public AudioManager audioManager;
+
     // public HealthBar healthBar;
 
     // Start is called before the first frame update
@@ -38,13 +40,14 @@ public class PlayerStatus : MonoBehaviour
         if (currentHealth < 0)
         {
             // Debug.Log("DEAD");
-            SceneManager.LoadScene(SampleScene);
+            SceneManager.LoadScene(0);
         }
         
     }
 
     public void TakeDamage(float damage)
     {
+        // audioManager.Play("Cough");
         pingPong = Mathf.PingPong(Time.time, 0.1f);
         Debug.Log("Pingpong: " + pingPong);
         currentHealth -= damage;

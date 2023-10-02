@@ -31,7 +31,7 @@ public class ParticleCollision : MonoBehaviour
             if (boxCollider.bounds.Intersects(new Bounds(particle.position, particle.GetCurrentSize3D(sys))))
             {
                 // Debug.Log("Success");
-                playerStatus.TakeDamage(0.05f);
+                playerStatus.TakeDamage(0.1f);
             }
         }
     }

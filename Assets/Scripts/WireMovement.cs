@@ -41,7 +41,7 @@ public class WireMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space) || moveInput.y > 0) 
+        if (Input.GetKey(KeyCode.Space)) 
 		{
 			// if (moveInput.y > 0 && !Input.GetKey(KeyCode.Space))
 			// {

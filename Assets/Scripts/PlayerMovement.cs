@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float tiltSpeed;
     [SerializeField] private float maxTilt;
     public LineRenderer lineRenderer;
+    public AudioManager audioManager;
 
 
     public float distanceFromGround;
@@ -100,11 +101,19 @@ public class PlayerMovement : MonoBehaviour
             falling = true;
         }
 
+        if (RB.transform.position.y < 0.01f)
+        {
+            audioManager.Play("Jump1");
+        }
+        
 
         LastOnGroundTime -= Time.deltaTime;
 		LastPressedJumpTime -= Time.deltaTime;
         moveInput.x = Input.GetAxisRaw("Horizontal");
 		moveInput.y = Input.GetAxisRaw("Vertical");
+
+        
+
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -118,13 +127,16 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
+                
+
 				if(LastOnGroundTime < -0.1f && !falling)
                 {
+                    audioManager.Stop("Jump1");
 					// AnimHandler.justLanded = true;
 					// audioManager.Stop("PlayerJump");
+
                     WireSpring.enabled = false;
 					_isJumpFalling = false;
-                    Debug.Log("GROUND");
 
 					WireMovement();
                 }
@@ -172,6 +184,9 @@ public class PlayerMovement : MonoBehaviour
 		WireMovement();
         // RB.gravityScale = gravityScale;
 
+       
+        
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
 
         if (hit.collider != null)
@@ -201,6 +216,15 @@ public class PlayerMovement : MonoBehaviour
       {
         spriteRend.flipX = false;
       }
+       if (moveInput.x > -0.01f)
+        {
+            audioManager.Play("Footsteps");
+        }
+
+        if (moveInput.x < 0.01f || IsJumping)
+        {
+            audioManager.Stop("Footsteps");
+        }
     }
 
     public void OnJumpInput()
@@ -229,7 +253,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (LastOnGroundTime > -0.01f)
         {
-            // Debug.Log("DISABLING DOWNWARD FORCE");
 		    RB.AddForce(movement * groundForce, ForceMode2D.Force);
         }
         else
@@ -243,7 +266,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsJumping || _isJumpFalling || falling)
 		{
-            Debug.Log("WORKING");
             WireSpring.enabled = true;
 			WireRB.MovePosition(new Vector2(RB.position.x, WireRB.position.y));
             DescentTime = WireRB.position.y - (1f * Time.deltaTime);
@@ -283,7 +305,6 @@ public class PlayerMovement : MonoBehaviour
 				WireRB.MovePosition(new Vector2(RB.position.x, RB.position.y + 4.5f));
 			}
 
-           
 
 		}
 		// else if (moveInput.y > 0)
